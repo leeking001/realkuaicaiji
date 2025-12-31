@@ -1,0 +1,243 @@
+/* 悬浮球容器 */
+#kc-fab-container {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  z-index: 2147483646; /* High z-index but below max */
+  display: flex;
+  flex-direction: column-reverse; /* Expand upwards */
+  align-items: center;
+  gap: 12px;
+  font-family: sans-serif;
+  pointer-events: none; /* Container passes clicks through */
+  /* 增加一个透明的内边距区域，防止鼠标移出间隙时菜单缩回 */
+  padding: 20px; 
+  margin: -20px;
+}
+#kc-fab-container > * {
+  pointer-events: auto; /* Children capture clicks */
+}
+
+/* 主按钮 */
+#kc-fab-main {
+  width: 40px; /* Smaller size */
+  height: 40px;
+  background: #FF3836; /* Red background */
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(245, 34, 45, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  z-index: 2;
+}
+#kc-fab-main:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(245, 34, 45, 0.5);
+}
+#kc-fab-main img {
+  width: 16px; /* icon16 */
+  height: 16px;
+  display: block;
+  pointer-events: none;
+}
+
+/* 展开的菜单项 */
+.kc-fab-item {
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(10px) scale(0.8);
+  transition: all 0.2s ease;
+  position: relative;
+  visibility: hidden;
+}
+
+/* 图标样式 */
+.kc-fab-item svg {
+  width: 18px;
+  height: 18px;
+  fill: #666;
+  transition: fill 0.2s;
+}
+.kc-fab-item:hover {
+  background: #f0f0f0;
+}
+.kc-fab-item:hover svg {
+  fill: #f5222d;
+}
+
+/* Tooltip */
+.kc-fab-item::after {
+  content: attr(data-title);
+  position: absolute;
+  right: 48px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.kc-fab-item:hover::after {
+  opacity: 1;
+}
+
+/* 悬停容器或添加了 expanded 类时展开 */
+#kc-fab-container:hover .kc-fab-item,
+#kc-fab-container.expanded .kc-fab-item {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  visibility: visible;
+}
+
+/* 延迟动画，依次展开 */
+#kc-fab-container:hover .kc-fab-item:nth-child(2),
+#kc-fab-container.expanded .kc-fab-item:nth-child(2) { transition-delay: 0.05s; } /* Closest to main */
+
+#kc-fab-container:hover .kc-fab-item:nth-child(3),
+#kc-fab-container.expanded .kc-fab-item:nth-child(3) { transition-delay: 0.1s; }
+
+#kc-fab-container:hover .kc-fab-item:nth-child(4),
+#kc-fab-container.expanded .kc-fab-item:nth-child(4) { transition-delay: 0.15s; }
+
+/* 采集按钮 (Mini模式：只有Icon) */
+#kc-collect-btn {
+  position: absolute;
+  z-index: 2147483647;
+  background: #FF3836;
+  color: white;
+  /* 初始只显示图标 */
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 50%; /* 圆形 */
+  
+  font-size: 0; /* 隐藏文字 */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+  display: none; /* Initially hidden */
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  animation: fadeIn 0.2s;
+  border: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  /* 优化过渡效果：增加 delay 避免鼠标快速划过时闪烁，使用更自然的贝塞尔曲线 */
+  transition: width 0.3s cubic-bezier(0.2, 0, 0.2, 1), 
+              border-radius 0.3s cubic-bezier(0.2, 0, 0.2, 1),
+              background-color 0.2s;
+  overflow: hidden;
+  white-space: nowrap; /* 确保文字不换行 */
+}
+
+/* 默认状态下只显示SVG图标 */
+#kc-collect-btn::before {
+  content: ''; /* Remove text/emoji */
+  display: block;
+  width: 16px;
+  height: 16px;
+  min-width: 16px; /* Override previous */
+  /* URL Encoded SVG: M12 21.35... same as collect page icon */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  margin: 0 auto; /* Center horizontally */
+  transition: margin 0.3s;
+}
+
+/* Hover 展开显示文案 */
+#kc-collect-btn:hover {
+  width: auto; /* 自动宽度 */
+  min-width: 90px; /* 最小宽度，确保文字显示 */
+  padding-right: 12px; /* 右侧留白 */
+  padding-left: 8px; /* Add padding for icon on left */
+  
+  height: 32px; /* 稍微高一点 */
+  border-radius: 16px; /* 胶囊形 */
+  
+  font-size: 13px; /* 显示文字 */
+  background: #FF3836;
+  box-shadow: 0 4px 12px rgba(239, 94, 91, 0.4);
+  
+  /* Flex layout for text + icon */
+  display: flex; 
+  align-items: center;
+  gap: 4px;
+}
+
+/* 调整图标位置适配 Hover 状态 */
+#kc-collect-btn:hover::before {
+  margin: 0; /* Reset auto margin */
+}
+
+/* 采集中的动画 */
+#kc-collect-btn.collecting {
+  pointer-events: none;
+  background: #FF3836;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 0;
+  padding: 0;
+  min-width: 32px; /* 强制变圆 */
+  transition: width 0.2s; /* 快速回缩 */
+}
+#kc-collect-btn.collecting::before {
+  content: '⏳'; /* 或使用 SVG spinner */
+  animation: spin 1s linear infinite;
+  min-width: 32px;
+}
+
+/* 采集成功动画 */
+#kc-collect-btn.success {
+  pointer-events: none;
+  background: #52c41a; /* Green */
+  width: auto;
+  min-width: 80px;
+  height: 32px;
+  border-radius: 16px;
+  font-size: 13px;
+  padding: 0 12px;
+  
+  /* 移除 popSuccess 动画，改为平滑过渡 */
+  transition: all 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+  transform: scale(1.05); /* 轻微放大 */
+}
+#kc-collect-btn.success::before {
+  content: '✓';
+  margin-right: 4px;
+  min-width: auto; /* 恢复自然宽度 */
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes popSuccess {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

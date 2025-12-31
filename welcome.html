@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎使用快采集</title>
+    <style>
+        :root {
+            --bg-body: #f8f9fa;
+            --bg-container: #ffffff;
+            --text-main: #1a1a1a;
+            --text-sub: #444;
+            --text-light: #666;
+            --border: #eee;
+            --card-bg: #f9f9f9;
+            --accent: #36383b;
+            --accent-bg: #e6f7ff;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-body: #1e1e1e;
+                --bg-container: #2d2d2d;
+                --text-main: #e0e0e0;
+                --text-sub: #d0d0d0;
+                --text-light: #a0a0a0;
+                --border: #444;
+                --card-bg: #374151;
+                --accent: #dae1e8;
+                --accent-bg: #1e3a8a;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: var(--bg-container);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            min-height: 100vh;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: 32px;
+            margin: 0 0 10px 0;
+            color: var(--accent);
+        }
+        .subtitle {
+            font-size: 18px;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+        
+        section {
+            margin-bottom: 40px;
+        }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+        }
+        h3 {
+            font-size: 18px;
+            margin: 20px 0 10px 0;
+            color: var(--text-main);
+        }
+        p, li {
+            font-size: 16px;
+            color: var(--text-sub);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .feature-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .highlight {
+            background: var(--accent-bg);
+            color: var(--accent);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .cta-button {
+            display: block;
+            width: 200px;
+            margin: 40px auto;
+            padding: 12px 0;
+            background: var(--accent);
+            color: white;
+            text-align: center;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        /* Responsive adjustments for narrow sidepanel */
+        @media (max-width: 600px) {
+            .container { padding: 20px 16px; min-height: auto; }
+            header { margin-bottom: 24px; padding-bottom: 16px; }
+            .logo { width: 60px; height: 60px; }
+            h1 { font-size: 24px; }
+            .subtitle { font-size: 14px; }
+            h2 { font-size: 20px; }
+            h3 { font-size: 16px; }
+            p, li { font-size: 14px; }
+            .feature-grid { grid-template-columns: 1fr; gap: 12px; }
+            .feature-card { padding: 16px; }
+            .cta-button { width: 100%; margin: 24px 0; font-size: 16px; }
+            section { margin-bottom: 24px; }
+            footer { margin-top: 40px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>快采集</h1>
+            <div class="subtitle">不仅是采集，更是你的 24 小时 AI 创作搭档</div>
+        </header>
+
+        <section>
+            <p style="text-align: center; font-size: 16px;">
+                一键捕获网页灵感，AI 深度拆解爆款逻辑，即时AI 对话生成内容。
+            </p>
+            <!-- 在侧边栏模式下，关闭按钮可能没意义，可以隐藏或者改为跳转到灵感库Tab -->
+            <!-- 这里我们先保留，用户点击后无反应也没关系，或者通过 postMessage 通知父级切换 Tab -->
+        </section>
+
+        <section>
+            <h2>🛠 使用指南</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🔍 全能灵感采集</h3>
+                    <ul>
+                        <li><strong>划词采集</strong>：选中金句，一键保存。</li>
+                        <li><strong>图片采集</strong>：鼠标悬停，高清保存。</li>
+                        <li><strong>视频采集</strong>：智能提取标题与简介。</li>
+                        <li><strong>网页采集</strong>：AI 自动抓取并总结全文。</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>🧠 AI 深度拆解</h3>
+                    <p>采集后 AI 自动分析，一句话提炼核心观点，挖掘独特价值，帮你快速复刻爆款逻辑。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💬 沉浸式创作对话</h3>
+                    <p>引用采集素材，让 AI 写文章、出选题、生成封面图。支持快捷指令，效率倍增。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎈 极致便捷交互</h3>
+                    <p>红色悬浮球常驻右下角，不打扰浏览。侧边栏完美适配，支持深色模式。</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            快采集 —— 让每一个灵感，都有机会成为 10w+
+        </footer>
+    </div>
+    <script src="welcome.js"></script>
+</body>
+</html>
