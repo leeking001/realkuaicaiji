@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "快采集",
+  "version": "5.0",
+  "description": "全能灵感采集：支持划词、图片、链接抓取及关键词聚合。",
+  "permissions": [
+    "storage",
+    "unlimitedStorage",
+    "sidePanel",
+    "activeTab",
+    "scripting",
+    "cookies"
+  ],
+  "host_permissions": [
+    "https://kuaichuan.360kuai.com/*", 
+    "<all_urls>"
+  ],
+  "action": {
+    "default_title": "打开侧边栏"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    },
+    {
+      "matches": ["https://kuaichuan.360kuai.com/*"],
+      "js": ["autofill.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/icon16.png", "icons/icon48.png"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
